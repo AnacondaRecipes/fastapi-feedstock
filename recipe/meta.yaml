@@ -18,6 +18,7 @@ requirements:
   host:
     - python >=3.6
     - pip
+    - wheel
     - flit
   run:
     - python >=3.6
@@ -36,11 +37,25 @@ about:
   home: https://github.com/tiangolo/fastapi
   license: MIT
   license_file: LICENSE
+  license_url: https://github.com/tiangolo/fastapi/blob/master/LICENSE
   summary: FastAPI framework, high performance, easy to learn, fast to code, ready for production
+  description: FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.
   doc_url: https://github.com/tiangolo/fastapi
+  doc_source_url: https://github.com/tiangolo/fastapi/tree/master/docs_src
   dev_url: https://github.com/tiangolo/fastapi
 
 extra:
+  skip-lints:
+    - avoid_noarch
+    - missing_pip_check
+    - missing_license_family
+
+  anaconda-services:
+    ref:  https://anaconda.zendesk.com/agent/tickets/26940
+    reason: "needed for building vaex-server"
+    recipe-maintainers:
+      - bkreider
+ 
   recipe-maintainers:
     - dhirschfeld
     - tiangolo

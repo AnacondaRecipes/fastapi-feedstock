@@ -1,5 +1,5 @@
 {% set name = "fastapi" %}
-{% set version = "0.63.0" %}
+{% set version = "0.101.1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,34 +7,34 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 63c4592f5ef3edf30afa9a44fa7c6b7ccb20e0d3f68cd9eba07b44d552058dcb
+  sha256: 7b32000d14ca9992f7461117b81e4ef9ff0c07936af641b4fe40e67d5f9d63cb
 
 build:
-  noarch: python
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv
+  skip: true  # [py<37]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
   host:
-    - python >=3.6
+    - python
     - pip
-    - flit
+    - hatchling
   run:
-    - python >=3.6
-    - starlette-base =0.13.6
-    - pydantic >=1.0.0,<2.0.0
+    - python
+    - starlette >=0.27.0,<0.28.0
+    - pydantic >=1.7.4,!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0
+    - typing-extensions >=4.5.0
 
 test:
-  imports:
-    - fastapi
-    - fastapi.dependencies
-    - fastapi.middleware
-    - fastapi.openapi
-    - fastapi.security
+  # imports and commands are in the run_test.py
+  requires:
+    - pip
+    - httpx
 
 about:
   home: https://github.com/tiangolo/fastapi
   license: MIT
+  license_family: MIT
   license_file: LICENSE
   summary: FastAPI framework, high performance, easy to learn, fast to code, ready for production
   doc_url: https://github.com/tiangolo/fastapi

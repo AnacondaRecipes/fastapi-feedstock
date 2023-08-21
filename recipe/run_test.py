@@ -1,3 +1,4 @@
+import fastapi
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 from fastapi import dependencies

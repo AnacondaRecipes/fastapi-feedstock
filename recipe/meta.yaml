@@ -29,7 +29,7 @@ test:
   # imports and commands are in the run_test.py
   requires:
     - pip
-    - httpx
+    - httpx  # [not s390x]
 
 about:
   home: https://github.com/tiangolo/fastapi

@@ -11,7 +11,9 @@ source:
 
 build:
   number: 0
-  skip: true  # [py<37]
+  # httpx and its deps (httpcore, idna) isn't available on s390x. 
+  # httpx is required only for testing fastapi  by using `from fastapi.testclient import TestClient`
+  skip: true  # [py<37 or s390x]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
@@ -29,7 +31,7 @@ test:
   # imports and commands are in the run_test.py
   requires:
     - pip
-    - httpx  # [not s390x]
+    - httpx
 
 about:
   home: https://github.com/tiangolo/fastapi

@@ -26,10 +26,19 @@ requirements:
     - typing-extensions >=4.5.0
 
 test:
-  # imports and commands are in the run_test.py
+  imports:
+    - fastapi
+    - fastapi.dependencies
+    - fastapi.middleware
+    - fastapi.openapi
+    - fastapi.security
+  source_files:
+    - docs_src/
+    - tests/
   requires:
     - pip
-    - httpx  # [not s390x]
+  commands:
+    - pip check
 
 about:
   home: https://github.com/tiangolo/fastapi

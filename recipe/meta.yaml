@@ -1,5 +1,5 @@
 {% set name = "fastapi" %}
-{% set version = "0.103.0" %}
+{% set version = "0.108.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,14 +7,14 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 4166732f5ddf61c33e9fa4664f73780872511e0598d4d5434b1816dc1e6d9421
+  sha256: 5056e504ac6395bf68493d71fcfc5352fdbd5fda6f88c21f6420d80d81163296
 
 build:
   number: 0
   # httpx and its deps (httpcore, idna) aren't available on s390x. 
   # httpx is required only for testing fastapi  by using `from fastapi.testclient import TestClient`
   skip: true  # [py<37 or s390x]
-  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -v
 
 requirements:
   host:
@@ -23,6 +23,7 @@ requirements:
     - hatchling
   run:
     - python
+    - anyio >=3.7.1,<4.0.0
     - starlette >=0.27.0,<0.28.0
     - pydantic >=1.7.4,!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0
     - typing-extensions >=4.5.0

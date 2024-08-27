@@ -1,5 +1,5 @@
 {% set name = "fastapi" %}
-{% set version = "0.103.0" %}
+{% set version = "0.112.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,29 +7,32 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 4166732f5ddf61c33e9fa4664f73780872511e0598d4d5434b1816dc1e6d9421
+  sha256: 3d4729c038414d5193840706907a41839d839523da6ed0c2811f1168cac1798c
 
 build:
   number: 0
-  # httpx and its deps (httpcore, idna) aren't available on s390x. 
+  # httpx and its deps (httpcore, idna) aren't available on s390x.
   # httpx is required only for testing fastapi  by using `from fastapi.testclient import TestClient`
-  skip: true  # [py<37 or s390x]
+  skip: true  # [py<38 or s390x]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+  entry_points:
+    - fastapi = fastapi.cli:main
 
 requirements:
   host:
     - python
     - pip
-    - hatchling
+    - pdm-backend
   run:
     - python
-    - starlette >=0.27.0,<0.28.0
+    - starlette >=0.37.2,<0.39.0
     - pydantic >=1.7.4,!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0
-    - typing-extensions >=4.5.0
+    - typing-extensions >=4.8.0
 
 test:
   imports:
     - fastapi
+    - fastapi.cli
     - fastapi.dependencies
     - fastapi.middleware
     - fastapi.openapi
@@ -40,7 +43,7 @@ test:
     - pip check
 
 about:
-  home: https://github.com/tiangolo/fastapi
+  home: https://github.com/fastapi/fastapi
   license: MIT
   license_family: MIT
   license_file: LICENSE
@@ -57,7 +60,7 @@ about:
     - Robust: Get production-ready code. With automatic interactive documentation.
     - Standards-based: Based on (and fully compatible with) the open standards for APIs: OpenAPI (previously known as Swagger) and JSON Schema.
   doc_url: https://fastapi.tiangolo.com/
-  dev_url: https://github.com/tiangolo/fastapi
+  dev_url: https://github.com/fastapi/fastapi
 
 extra:
   recipe-maintainers:

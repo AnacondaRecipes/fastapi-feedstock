@@ -6,10 +6,10 @@ context:
 
 package:
   name: fastapi
-  version: ${{ version }}
+  version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/f/fastapi/fastapi-${{ version }}.tar.gz
+  url: https://pypi.org/packages/source/f/fastapi/fastapi-{{ version }}.tar.gz
   sha256: 9d7da3b196c5eed049bc769f9475cd55509a112fbe031c0ef2f53768ae68d13f
   patches:
     # this ships a `bin/fastapi` which says to install `fastapi-cli`

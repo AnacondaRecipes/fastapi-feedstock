@@ -1,12 +1,9 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
 #schema_version: 1
 
-context:
-  version: "0.115.9"
-
 package:
   name: fastapi
-  version: {{ version }}
+  version: 0.115.9
 
 source:
   url: https://pypi.org/packages/source/f/fastapi/fastapi-{{ version }}.tar.gz

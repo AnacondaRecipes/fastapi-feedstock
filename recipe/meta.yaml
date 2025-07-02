@@ -1,69 +1,79 @@
-{% set name = "fastapi" %}
-{% set version = "0.112.2" %}
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+schema_version: 1
+
+context:
+  version: "0.115.9"
 
 package:
-  name: {{ name|lower }}
-  version: {{ version }}
+  name: fastapi
+  version: ${{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 3d4729c038414d5193840706907a41839d839523da6ed0c2811f1168cac1798c
+  url: https://pypi.org/packages/source/f/fastapi/fastapi-${{ version }}.tar.gz
+  sha256: 9d7da3b196c5eed049bc769f9475cd55509a112fbe031c0ef2f53768ae68d13f
+  patches:
+    # this ships a `bin/fastapi` which says to install `fastapi-cli`
+    # but as this recipe already depends on `fastapi-cli`, it clobbers the working one
+    - 0000-no-broken-cli.patch
 
 build:
   number: 0
-  # httpx and its deps (httpcore, idna) aren't available on s390x.
-  # httpx is required only for testing fastapi  by using `from fastapi.testclient import TestClient`
-  skip: true  # [py<38 or s390x]
-  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  entry_points:
-    - fastapi = fastapi.cli:main
+  noarch: python
+  script:
+    - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
 
 requirements:
   host:
-    - python
-    - pip
     - pdm-backend
+    - pip
+    - python
   run:
     - python
-    - starlette >=0.37.2,<0.39.0
+    # [project.dependencies]
+    - starlette >=0.40.0,<0.46.0
+    - typing_extensions >=4.8.0
     - pydantic >=1.7.4,!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0
-    - typing-extensions >=4.8.0
+    # [project.optional-dependencies.standard]
+    - email_validator >=2.0.0
+    - fastapi-cli >=0.0.5
+    - httpx >=0.23.0
+    - jinja2 >=3.1.5
+    - python-multipart >=0.0.18
+    - uvicorn-standard >=0.12.0
 
-test:
-  imports:
-    - fastapi
-    - fastapi.cli
-    - fastapi.dependencies
-    - fastapi.middleware
-    - fastapi.openapi
-    - fastapi.security
-  requires:
-    - pip
-  commands:
-    - pip check
+tests:
+  - python:
+      pip_check: true
+      python_version:
+      imports:
+        - fastapi
+        - fastapi.dependencies
+        - fastapi.middleware
+        - fastapi.openapi
+        - fastapi.security
+  - requirements:
+      run:
+        - python
+    script:
+      - fastapi --version
+      - fastapi --help
 
 about:
-  home: https://github.com/fastapi/fastapi
   license: MIT
-  license_family: MIT
   license_file: LICENSE
   summary: FastAPI framework, high performance, easy to learn, fast to code, ready for production
-  description: |
-    FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.
-    The key features are:
-    - Fast: Very high performance, on par with NodeJS and Go (thanks to Starlette and Pydantic). One of the fastest Python frameworks available.
-    - Fast to code: Increase the speed to develop features by about 200% to 300%. *
-    - Fewer bugs: Reduce about 40% of human (developer) induced errors. *
-    - Intuitive: Great editor support. Completion everywhere. Less time debugging.
-    - Easy: Designed to be easy to use and learn. Less time reading docs.
-    - Short: Minimize code duplication. Multiple features from each parameter declaration. Fewer bugs.
-    - Robust: Get production-ready code. With automatic interactive documentation.
-    - Standards-based: Based on (and fully compatible with) the open standards for APIs: OpenAPI (previously known as Swagger) and JSON Schema.
-  doc_url: https://fastapi.tiangolo.com/
-  dev_url: https://github.com/fastapi/fastapi
+  homepage: https://github.com/fastapi/fastapi
+  repository: https://github.com/fastapi/fastapi
+  documentation: https://fastapi.tiangolo.com
 
 extra:
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/70829
+    reason: Dependency for chromadb
+  recipe-maintainers:
+    - ianaobi
   recipe-maintainers:
     - dhirschfeld
     - tiangolo
     - synapticarbors
+    - bollwyvl

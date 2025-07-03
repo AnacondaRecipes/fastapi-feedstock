@@ -24,7 +24,7 @@ requirements:
   run:
     - python
     # [project.dependencies]
-    - starlette
+    - starlette >=0.46.2
     - typing_extensions
     - pydantic
     # [project.optional-dependencies.standard]

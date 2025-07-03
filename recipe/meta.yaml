@@ -13,7 +13,7 @@ source:
   patches:
     # this ships a `bin/fastapi` which says to install `fastapi-cli`
     # but as this recipe already depends on `fastapi-cli`, it clobbers the working one
-    - 0000-no-broken-cli.patch
+    #- 0000-no-broken-cli.patch
 
 build:
   number: 0

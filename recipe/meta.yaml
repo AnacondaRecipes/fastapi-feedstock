@@ -1,5 +1,5 @@
 {% set name = "fastapi" %}
-{% set version = "0.115.14" %}
+{% set version = "0.115.9" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/fastapi-{{ version }}.tar.gz
-  sha256: b1de15cdc1c499a4da47914db35d0e4ef8f1ce62b624e94e0e5824421df99739
+  sha256: 9d7da3b196c5eed049bc769f9475cd55509a112fbe031c0ef2f53768ae68d13f
 
 build:
   entry_points:
@@ -18,22 +18,22 @@ build:
 
 requirements:
   host:
+    - python 
     - pdm-backend
     - pip
-    - python
   run:
-    - python
-    # [project.dependencies]
-    - starlette >=0.46.2
-    - typing_extensions
-    - pydantic
-    # [project.optional-dependencies.standard]
-    - email_validator
-    - fastapi-cli
-    - httpx
-    - jinja2
-    - python-multipart
-    - uvicorn-standard
+   - python
+   # [project.dependencies]
+   - starlette >=0.45.3
+   - typing_extensions
+   - pydantic
+   # [project.optional-dependencies.standard]
+   - email_validator
+   - fastapi-cli
+   - httpx
+   - jinja2
+   - python-multipart
+   - uvicorn-standard
 test:
   imports:
     - fastapi

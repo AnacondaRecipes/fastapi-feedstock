@@ -1,25 +1,20 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
-#schema_version: 1
-
-{% set version = "0.115.9" %}
+{% set name = "fastapi" %}
+{% set version = "0.115.14" %}
 
 package:
-  name: fastapi
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/f/fastapi/fastapi-{{ version }}.tar.gz
-  sha256: 9d7da3b196c5eed049bc769f9475cd55509a112fbe031c0ef2f53768ae68d13f
-  patches:
-    # this ships a `bin/fastapi` which says to install `fastapi-cli`
-    # but as this recipe already depends on `fastapi-cli`, it clobbers the working one
-    #- 0000-no-broken-cli.patch
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/fastapi-{{ version }}.tar.gz
+  sha256: b1de15cdc1c499a4da47914db35d0e4ef8f1ce62b624e94e0e5824421df99739
 
 build:
-  number: 0
+  entry_points:
+    - fastapi = fastapi.cli:main
   noarch: python
-  script:
-    - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
 
 requirements:
   host:
@@ -38,24 +33,15 @@ requirements:
     - httpx
     - jinja2
     - python-multipart
-    - uvicorn-standard 
-
-tests:
-  - python:
-      pip_check: true
-      python_version:
-      imports:
-        - fastapi
-        - fastapi.dependencies
-        - fastapi.middleware
-        - fastapi.openapi
-        - fastapi.security
-  - requirements:
-      run:
-        - python
-    script:
-      - fastapi --version
-      - fastapi --help
+    - uvicorn-standard
+test:
+  imports:
+    - fastapi
+  commands:
+    - pip check
+    - fastapi --help
+  requires:
+    - pip
 
 about:
   license: MIT

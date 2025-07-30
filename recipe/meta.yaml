@@ -1,55 +1,51 @@
 {% set name = "fastapi" %}
-{% set version = "0.115.9" %}
+{% set version = "0.115.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/fastapi-{{ version }}.tar.gz
-  sha256: 9d7da3b196c5eed049bc769f9475cd55509a112fbe031c0ef2f53768ae68d13f
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: f93b4ca3529a8ebc6fc3fcf710e5efa8de3df9b41570958abf1d97d843138004
 
 build:
-  entry_points:
-    - fastapi = fastapi.cli:main
   noarch: python
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
-    - python 
+    - python >=3.8
     - pdm-backend
     - pip
   run:
-   - python
-   # [project.dependencies]
-   - starlette >=0.45.3
-   - typing_extensions
-   - pydantic
-   # [project.optional-dependencies.standard]
-   - email_validator
-   - fastapi-cli
-   - httpx
-   - jinja2
-   - python-multipart
-   - uvicorn-standard
+    - starlette >=0.37.2,<0.39.0
+    - pydantic >=1.7.4,!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0
+    - typing-extensions >=4.8.0
+    - fastapi-cli >=0.0.5
+    - httpx >=0.23.0
+    - jinja2 >=2.11.2
+    - python-multipart >=0.0.7
+    - email_validator >=2.0.0
+    - uvicorn >=0.12.0
+    - python >=3.8
+
 test:
   imports:
     - fastapi
-  commands:
-    - pip check
-    - fastapi --help
-  requires:
-    - pip
+    - fastapi.dependencies
+    - fastapi.middleware
+    - fastapi.openapi
+    - fastapi.security
 
 about:
+  home: https://github.com/fastapi/fastapi
   license: MIT
   license_file: LICENSE
   summary: FastAPI framework, high performance, easy to learn, fast to code, ready for production
-  homepage: https://github.com/fastapi/fastapi
-  repository: https://github.com/fastapi/fastapi
-  documentation: https://fastapi.tiangolo.com
+  doc_url: https://github.com/fastapi/fastapi
+  dev_url: https://github.com/fastapi/fastapi
 
 extra:
   anaconda-services:
@@ -62,4 +58,3 @@ extra:
     - dhirschfeld
     - tiangolo
     - synapticarbors
-    - bollwyvl

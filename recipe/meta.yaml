@@ -1,5 +1,5 @@
 {% set name = "fastapi" %}
-{% set version = "0.116.1" %}
+{% set version = "0.121.1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: ed52cbf946abfd70c5a0dccb24673f0670deeb517a88b3544d03c2a6bf283143
+  sha256: b6dba0538fd15dab6fe4d3e5493c3957d8a9e1e9257f56446b5859af66f32441
 
 build:
   number: 0
@@ -19,16 +19,64 @@ build:
 
 requirements:
   host:
-    - python
     - pip
+    - python
     - pdm-backend
   run:
     - python
     - starlette >=0.40.0,<0.48.0
     - pydantic >=1.7.4,!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0
     - typing-extensions >=4.8.0
+    - annotated-doc >=0.0.2
+  run_constrained:
+    - fastapi-cli >=0.0.8
+    - httpx >=0.23.0,<1.0.0
+    - jinja2 >=3.1.5
+    - python-multipart >=0.0.18
+    - itsdangerous >=1.1.0
+    - pyyaml >=5.3.1
+    - ujson >=4.0.1,!=4.0.2,!=4.1.0,!=4.2.0,!=4.3.0,!=5.0.0,!=5.1.0
+    - orjson >=3.2.1
+    - email-validator >=2.0.0
+    - uvicorn >=0.12.0
+    - pydantic-settings >=2.0.0
+    - pydantic-extra-types >=2.0.0
+
+{% set deselect_tests = "--deselect=tests/test_fastapi_cli.py::test_fastapi_cli" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_custom_response/test_tutorial001.py::test_get_custom_response" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_path_operation_advanced_configurations/test_tutorial007.py::test_post" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_path_operation_advanced_configurations/test_tutorial007.py::test_post_broken_yaml" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_path_operation_advanced_configurations/test_tutorial007.py::test_post_invalid" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_path_operation_advanced_configurations/test_tutorial007.py::test_openapi_schema" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_response_model/test_tutorial003.py::test_post_user" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_response_model/test_tutorial003.py::test_openapi_schema" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_response_model/test_tutorial003_01.py::test_post_user" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_response_model/test_tutorial003_01.py::test_openapi_schema" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_login" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_login_incorrect_password" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_login_incorrect_username" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_no_token" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_incorrect_token" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_incorrect_token_type" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_verify_password" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_get_password_hash" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_create_access_token" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token_no_sub" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token_no_username" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token_no_scope" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token_nonexistent_user" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token_inactive_user" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_read_items" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_read_system_status" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_read_system_status_no_token" %}
+{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_openapi_schema" %}
 
 test:
+  source_files:
+    - tests
+    - docs_src
+    - docs
   imports:
     - fastapi
     - fastapi.cli
@@ -38,8 +86,22 @@ test:
     - fastapi.security
   requires:
     - pip
+    - pyjwt 2.9.0
+    - python-multipart
+    - pydantic-settings
+    - pytest >=7.1.3,<9.0.0
+    - inline-snapshot >=0.21.1
+    - flask >=1.1.2,<4.0.0
+    - dirty-equals
+    - sqlalchemy
+    - sqlmodel
+    - orjson
+    - httpx
+    - trio
   commands:
     - pip check
+    # fastapi cli call is impossible as fastapi-cli package is missing 
+    - pytest -v tests {{ deselect_tests }}
 
 about:
   home: https://github.com/fastapi/fastapi
@@ -58,7 +120,7 @@ about:
     - Short: Minimize code duplication. Multiple features from each parameter declaration. Fewer bugs.
     - Robust: Get production-ready code. With automatic interactive documentation.
     - Standards-based: Based on (and fully compatible with) the open standards for APIs: OpenAPI (previously known as Swagger) and JSON Schema.
-  doc_url: https://fastapi.tiangolo.com/
+  doc_url: https://fastapi.tiangolo.com
   dev_url: https://github.com/fastapi/fastapi
 
 extra:

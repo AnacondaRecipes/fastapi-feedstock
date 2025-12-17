@@ -1,16 +1,45 @@
 {% set name = "fastapi" %}
 {% set version = "0.121.1" %}
+{% set deselect_tests = "--deselect=tests/test_fastapi_cli.py::test_fastapi_cli" %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_custom_response/test_tutorial001.py::test_get_custom_response"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_path_operation_advanced_configurations/test_tutorial007.py::test_post"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_path_operation_advanced_configurations/test_tutorial007.py::test_post_broken_yaml"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_path_operation_advanced_configurations/test_tutorial007.py::test_post_invalid"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_path_operation_advanced_configurations/test_tutorial007.py::test_openapi_schema"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_response_model/test_tutorial003.py::test_post_user"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_response_model/test_tutorial003.py::test_openapi_schema"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_response_model/test_tutorial003_01.py::test_post_user"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_response_model/test_tutorial003_01.py::test_openapi_schema"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_login"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_login_incorrect_password"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_login_incorrect_username"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_no_token"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_incorrect_token"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_incorrect_token_type"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_verify_password"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_get_password_hash"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_create_access_token"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token_no_sub"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token_no_username"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token_no_scope"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token_nonexistent_user"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token_inactive_user"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_read_items"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_read_system_status"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_read_system_status_no_token"' %}
+{% set deselect_tests = 'deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_openapi_schema"' %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: b6dba0538fd15dab6fe4d3e5493c3957d8a9e1e9257f56446b5859af66f32441
 
 build:
-  number: 0
+  number: 1
   # httpx is required only for testing fastapi  by using `from fastapi.testclient import TestClient`
   skip: true  # [py<38]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
@@ -42,36 +71,6 @@ requirements:
     - pydantic-settings >=2.0.0
     - pydantic-extra-types >=2.0.0
 
-{% set deselect_tests = "--deselect=tests/test_fastapi_cli.py::test_fastapi_cli" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_custom_response/test_tutorial001.py::test_get_custom_response" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_path_operation_advanced_configurations/test_tutorial007.py::test_post" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_path_operation_advanced_configurations/test_tutorial007.py::test_post_broken_yaml" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_path_operation_advanced_configurations/test_tutorial007.py::test_post_invalid" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_path_operation_advanced_configurations/test_tutorial007.py::test_openapi_schema" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_response_model/test_tutorial003.py::test_post_user" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_response_model/test_tutorial003.py::test_openapi_schema" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_response_model/test_tutorial003_01.py::test_post_user" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_response_model/test_tutorial003_01.py::test_openapi_schema" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_login" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_login_incorrect_password" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_login_incorrect_username" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_no_token" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_incorrect_token" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_incorrect_token_type" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_verify_password" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_get_password_hash" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_create_access_token" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token_no_sub" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token_no_username" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token_no_scope" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token_nonexistent_user" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_token_inactive_user" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_read_items" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_read_system_status" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_read_system_status_no_token" %}
-{% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_security/test_tutorial005.py::test_openapi_schema" %}
-
 test:
   source_files:
     - tests
@@ -100,7 +99,7 @@ test:
     - trio
   commands:
     - pip check
-    # fastapi cli call is impossible as fastapi-cli package is missing 
+    # fastapi cli call is impossible as fastapi-cli package is missing
     - pytest -v tests {{ deselect_tests }}
 
 about:

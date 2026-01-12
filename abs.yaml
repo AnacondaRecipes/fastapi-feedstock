@@ -4,4 +4,5 @@ build_env_vars:
 channels:
   - https://staging.continuum.io/pbp/fs/rich-toolkit-feedstock/pr2/28a1dfd
   - https://staging.continuum.io/pbp/fs/uvicorn-feedstock/pr9/ed6ba01
+  - https://staging.continuum.io/pbp/fs/pydantic-extra-types-feedstock/pr3/dd15803
   - https://staging.continuum.io/pbp/fs/fastapi-cli-feedstock/pr3/6e0a43d

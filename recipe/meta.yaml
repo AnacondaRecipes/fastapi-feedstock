@@ -48,7 +48,7 @@ outputs:
         - pydantic-settings >=2.0.0
         - pydantic-extra-types >=2.0.0
 
-    {% set deselect_tests = "--deselect=tests/test_fastapi_cli.py::test_fastapi_cli" %}
+    {% set deselect_tests = "" %}
     {% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_custom_response/test_tutorial001.py::test_get_custom_response" %}
     {% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_path_operation_advanced_configurations/test_tutorial007.py::test_post" %}
     {% set deselect_tests = deselect_tests + " --deselect=tests/test_tutorial/test_path_operation_advanced_configurations/test_tutorial007.py::test_post_broken_yaml" %}
@@ -123,7 +123,6 @@ outputs:
         - uvicorn >=0.12.0
       commands:
         - pip check
-        # fastapi cli call is impossible as fastapi-cli package is missing
         - pytest -v tests {{ ignore_tests }} {{ deselect_tests }}
 
     about:

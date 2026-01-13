@@ -139,14 +139,7 @@ outputs:
         # [2] pwdlib is not available on the main channel.
         # [3] pydantic.errors.PydanticUserError: Field 'id' requires a type annotation
         # [4] werkzeug doesn't have full support for Python 3.14
-        - |
-          pytest -v tests \
-            --ignore=tests/test_tutorial/test_graphql/test_tutorial001.py \
-            --ignore=tests/test_tutorial/test_security/test_tutorial004.py \
-            --ignore=tests/test_tutorial/test_security/test_tutorial005.py \
-            --ignore=tests/test_tutorial/test_sql_databases/test_tutorial001.py \
-            --ignore=tests/test_tutorial/test_sql_databases/test_tutorial002.py \
-            --ignore=tests/test_tutorial/test_wsgi/test_tutorial001.py
+        - pytest -v tests --ignore=tests/test_tutorial/test_graphql/test_tutorial001.py --ignore=tests/test_tutorial/test_security/test_tutorial004.py --ignore=tests/test_tutorial/test_security/test_tutorial005.py --ignore=tests/test_tutorial/test_sql_databases/test_tutorial001.py --ignore=tests/test_tutorial/test_sql_databases/test_tutorial002.py --ignore=tests/test_tutorial/test_wsgi/test_tutorial001.py
 
     about:
       home: https://github.com/fastapi/fastapi

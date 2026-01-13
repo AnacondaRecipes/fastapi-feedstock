@@ -73,7 +73,7 @@ outputs:
 
   - name: {{ name }}
     build:
-      noarch: python
+      noarch: generic
       script: echo "Metapackage - no build steps required"
       # IMPORTANT: The entry point "fastapi" is provided by the 'fastapi-cli' package, so it is not needed here,
       # otherwise conda-build will throw a warning:
@@ -163,7 +163,7 @@ outputs:
 
   - name: {{ name }}-all
     build:
-      noarch: python
+      noarch: generic
       script: echo "Metapackage - no build steps required"
     requirements:
       run:

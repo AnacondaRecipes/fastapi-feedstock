@@ -16,9 +16,7 @@ build:
 outputs:
   - name: {{ name }}-core
     build:
-      script:
-        - $PYTHON -m pip install . -vv --no-deps --no-build-isolation  # [unix]
-        - "%PYTHON%" -m pip install . -vv --no-deps --no-build-isolation  # [win]
+      script: python -m pip install . -vv --no-deps --no-build-isolation
     requirements:
       host:
         - python

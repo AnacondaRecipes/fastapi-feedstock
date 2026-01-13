@@ -13,10 +13,16 @@ build:
   number: 0
   skip: true  # [py<39]
 
+requirements:
+  host:
+    - python
+    - pip
+    - pdm-backend
+
 outputs:
   - name: {{ name }}-core
-    build:
-      script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+    script: build_base.bat  # [win]
+    script: build_base.sh   # [not win]
     requirements:
       host:
         - python

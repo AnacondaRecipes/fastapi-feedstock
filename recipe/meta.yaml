@@ -78,15 +78,17 @@ outputs:
       dev_url: https://github.com/fastapi/fastapi
 
   - name: {{ name }}
-    build:
-      noarch: generic
-      script: echo "Metapackage - no build steps required"
-      # IMPORTANT: The entry point "fastapi" is provided by the 'fastapi-cli' package, so it is not needed here,
-      # otherwise conda-build will throw a warning:
-      # WARNING: Inexact overlap between bin/fastapi in packages fastapi and fastapi-core.
-      # We test the 'fastapi' command in test.commands.
+    # IMPORTANT: The entry point "fastapi" is provided by the 'fastapi-cli' package, so it is not needed here,
+    # otherwise conda-build will throw a warning:
+    # WARNING: Inexact overlap between bin/fastapi in packages fastapi and fastapi-core.
+    # We test the 'fastapi' command in test.commands.
     requirements:
+      host:
+        - python
+        - pip
+        - pdm-backend
       run:
+        - python
         - {{ pin_subpackage("fastapi-core", exact=True) }}
         # [project.optional-dependencies.standard]
         - email_validator
@@ -168,11 +170,13 @@ outputs:
       dev_url: https://github.com/fastapi/fastapi
 
   - name: {{ name }}-all
-    build:
-      noarch: generic
-      script: echo "Metapackage - no build steps required"
     requirements:
+      host:
+        - python
+        - pip
+        - pdm-backend
       run:
+        - python
         - {{ pin_subpackage("fastapi", exact=True) }}
         # [project.optional-dependencies.all] - additional packages on top of standard
         - itsdangerous >=1.1.0

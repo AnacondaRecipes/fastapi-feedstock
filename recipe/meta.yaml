@@ -1,5 +1,5 @@
 {% set name = "fastapi" %}
-{% set version = "0.128.0" %}
+{% set version = "0.135.4" %}
 
 package:
   name: {{ name|lower }}-split
@@ -7,11 +7,11 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 1cc179e1cef10a6be60ffe429f79b829dce99d8de32d7acb7e6c8dfdf7f2645a
+  sha256: d87c41b0a7bcaa6f14629d73fe48e360821605c7b6d518caacbc00dcf8fa5e0e
 
 build:
   number: 0
-  skip: true  # [py<39]
+  skip: true  # [py<310]
 
 requirements:
   host:
@@ -31,9 +31,10 @@ outputs:
       run:
         - python
         - annotated-doc >=0.0.2
-        - pydantic >=2.7.0
-        - starlette >=0.40.0,<0.51.0
+        - pydantic >=2.9.0
+        - starlette >=0.46.0
         - typing-extensions >=4.8.0
+        - typing-inspection >=0.4.2
       run_constrained:
         # [project.optional-dependencies.standard]
         - fastapi-cli >=0.0.8
@@ -135,11 +136,16 @@ outputs:
         - coverage
       commands:
         - pip check
-        # Check fastapi-cli commands
-        - fastapi --version
-        - fastapi --help
-        - fastapi dev --help
-        - fastapi run --help
+        # Cross-platform version check via Python (the `fastapi --version` shim
+        # exits with code 1 and no stdout on win-64 — fastapi-cli 0.0.20 uses
+        # rich-toolkit markup in its version_callback, which doesn't render
+        # cleanly on the Windows test console).
+        - python -c "import fastapi_cli; print(fastapi_cli.__version__)"
+        # CLI subcommand smoke-test (Unix only; see comment above for Windows).
+        - fastapi --version        # [not win]
+        - fastapi --help           # [not win]
+        - fastapi dev --help       # [not win]
+        - fastapi run --help       # [not win]
         # Run pytest with ignored tests:
         # [1] strawberry-graphql is not available on the main channel.
         # [2] pwdlib is not available on the main channel.
@@ -174,7 +180,10 @@ outputs:
       run:
         - python
         - {{ pin_subpackage("fastapi", exact=True) }}
-        # [project.optional-dependencies.all] - additional packages on top of standard
+        # [project.optional-dependencies.all] - additional packages on top of standard.
+        # Note: upstream removed `ujson` and `orjson` from [all] in the 0.135.x series.
+        # We keep them here to avoid silently breaking downstream consumers that expect
+        # fastapi-all to install both speed-up libraries.
         - itsdangerous >=1.1.0
         - pyyaml >=5.3.1
         - ujson >=4.0.1,!=4.0.2,!=4.1.0,!=4.2.0,!=4.3.0,!=5.0.0,!=5.1.0
@@ -186,7 +195,10 @@ outputs:
         - pip
       commands:
         - pip check
-        - fastapi --version
+        # Cross-platform version check via Python; see fastapi output for the
+        # rationale (fastapi-cli's `--version` shim exits 1 on win-64).
+        - python -c "import fastapi_cli; print(fastapi_cli.__version__)"
+        - fastapi --version        # [not win]
 
     about:
       home: https://github.com/fastapi/fastapi

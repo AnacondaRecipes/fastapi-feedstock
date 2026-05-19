@@ -1,5 +1,5 @@
 {% set name = "fastapi" %}
-{% set version = "0.128.0" %}
+{% set version = "0.135.4" %}
 
 package:
   name: {{ name|lower }}-split
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 1cc179e1cef10a6be60ffe429f79b829dce99d8de32d7acb7e6c8dfdf7f2645a
+  sha256: d87c41b0a7bcaa6f14629d73fe48e360821605c7b6d518caacbc00dcf8fa5e0e
 
 build:
   number: 0
@@ -31,9 +31,10 @@ outputs:
       run:
         - python
         - annotated-doc >=0.0.2
-        - pydantic >=2.7.0
-        - starlette >=0.40.0,<0.51.0
+        - pydantic >=2.9.0
+        - starlette >=0.46.0
         - typing-extensions >=4.8.0
+        - typing-inspection >=0.4.2
       run_constrained:
         # [project.optional-dependencies.standard]
         - fastapi-cli >=0.0.8

@@ -11,7 +11,7 @@ source:
 
 build:
   number: 0
-  skip: true  # [py<39]
+  skip: true  # [py<310]
 
 requirements:
   host:
@@ -175,7 +175,10 @@ outputs:
       run:
         - python
         - {{ pin_subpackage("fastapi", exact=True) }}
-        # [project.optional-dependencies.all] - additional packages on top of standard
+        # [project.optional-dependencies.all] - additional packages on top of standard.
+        # Note: upstream removed `ujson` and `orjson` from [all] in the 0.135.x series.
+        # We keep them here to avoid silently breaking downstream consumers that expect
+        # fastapi-all to install both speed-up libraries.
         - itsdangerous >=1.1.0
         - pyyaml >=5.3.1
         - ujson >=4.0.1,!=4.0.2,!=4.1.0,!=4.2.0,!=4.3.0,!=5.0.0,!=5.1.0

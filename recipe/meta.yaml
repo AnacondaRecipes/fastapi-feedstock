@@ -1,13 +1,13 @@
 {% set name = "fastapi" %}
-{% set version = "0.135.4" %}
+{% set version = "0.138.0" %}
 
 package:
-  name: {{ name|lower }}-split
+  name: {{ name }}-split
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: d87c41b0a7bcaa6f14629d73fe48e360821605c7b6d518caacbc00dcf8fa5e0e
+  sha256: d445a4877636ad191e7053e08c9bf98cb921a6756776848400bb773d1740c061
 
 build:
   number: 0
@@ -38,15 +38,14 @@ outputs:
       run_constrained:
         # [project.optional-dependencies.standard]
         - fastapi-cli >=0.0.8
+        - fastar >=0.9.0
         - httpx >=0.23.0,<1.0.0
         - jinja2 >=3.1.5
         - python-multipart >=0.0.18
         - itsdangerous >=1.1.0
         - pyyaml >=5.3.1
-        - ujson >=4.0.1,!=4.0.2,!=4.1.0,!=4.2.0,!=4.3.0,!=5.0.0,!=5.1.0
-        - orjson >=3.2.1
         - email-validator >=2.0.0
-        - uvicorn-standard >=0.12.0
+        - uvicorn >=0.12.0
         - pydantic-settings >=2.0.0
         - pydantic-extra-types >=2.0.0
     test:
@@ -91,11 +90,12 @@ outputs:
         - {{ pin_subpackage("fastapi-core", exact=True) }}
         # [project.optional-dependencies.standard]
         - fastapi-cli >=0.0.8
+        - fastar >=0.9.0
         - httpx >=0.23.0,<1.0.0
         - jinja2 >=3.1.5
         - python-multipart >=0.0.18
         - email-validator >=2.0.0
-        - uvicorn-standard >=0.12.0
+        - uvicorn >=0.12.0
         - pydantic-settings >=2.0.0
         - pydantic-extra-types >=2.0.0
     test:
@@ -109,6 +109,7 @@ outputs:
         - tests
         - docs_src
         - docs
+        - scripts
       requires:
         - anyio >=3.2.1,<5.0.0
         - dirty-equals >=0.9.0
